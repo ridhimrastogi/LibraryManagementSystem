@@ -1,0 +1,14 @@
+<h3> All Users </h3>
+
+<table>
+  <tbody>
+    <th><%= 'Students:' %><br /></th>
+    <% @users1.each do |user1| %>
+      <td><%= user1.name %></td>
+    <% end %>
+    <th><%= 'Librarians:' %></th>
+    <% @users2.each do |user2| %>
+      <td><%= user2.name %></td>
+    <% end %>
+  </tbody>
+</table>

@@ -7,6 +7,11 @@ class AdminsController < ApplicationController
     @admins = Admin.all
   end
 
+  def getallusers
+    @users1 = Student.all
+    @users2 = Librarian.all
+  end
+
   # GET /admins/1
   # GET /admins/1.json
   def show
@@ -62,13 +67,14 @@ class AdminsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_admin
-      @admin = Admin.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def admin_params
-      params.require(:admin).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_admin
+    @admin = Admin.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def admin_params
+    params.require(:admin).permit(:name)
+  end
 end
