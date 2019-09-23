@@ -15,7 +15,19 @@
     <%= form.label :name %>
     <%= form.text_field :name %>
   </div>
-
+  <div class="field">
+    <%= form.label 'Email ID' %>
+    <%= form.text_field :email %>
+  </div>
+  <div class="field">
+    <%= form.label 'Password' %>
+    <%= form.text_field :password %>
+  </div>
+  <div>
+    <%= form.label 'Library' %>
+    <%= select("Library", "library_id", Library.all.collect{ |c| [ c.name, c.id] }) %>
+  </div>
+  <br>
   <div class="actions">
     <%= form.submit %>
   </div>
