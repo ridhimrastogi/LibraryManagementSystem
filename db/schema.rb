@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_035106) do
+ActiveRecord::Schema.define(version: 2019_09_23_043015) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -22,6 +22,15 @@ ActiveRecord::Schema.define(version: 2019_09_23_035106) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "isbn"
+    t.string "author"
+    t.string "language"
+    t.time "published"
+    t.integer "edition"
+    t.string "cover_image"
+    t.string "subject"
+    t.text "summary"
+    t.boolean "special_collection"
   end
 
   create_table "librarians", force: :cascade do |t|
@@ -34,6 +43,10 @@ ActiveRecord::Schema.define(version: 2019_09_23_035106) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "university"
+    t.string "location"
+    t.integer "max_days_borrowed"
+    t.float "overdue_fines"
   end
 
   create_table "students", force: :cascade do |t|
