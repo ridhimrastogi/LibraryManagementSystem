@@ -16,6 +16,26 @@
     <%= form.text_field :name %>
   </div>
 
+  <div class="field">
+    <%= form.label :university %>
+    <%= form.text_field :university %>
+  </div>
+
+  <div class="field">
+    <%= form.label :location %>
+    <%= form.text_field :location %>
+  </div>
+
+  <div class="field">
+    <%= form.label :max_days_borrowed %>
+    <%= form.number_field :max_days_borrowed %>
+  </div>
+
+  <div class="field">
+    <%= form.label :overdue_fines %>
+    <%= form.number_field :overdue_fines %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>
