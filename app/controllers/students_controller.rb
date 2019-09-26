@@ -21,6 +21,10 @@ class StudentsController < ApplicationController
   def edit
   end
 
+  # students login
+  def login
+  end
+
   # POST /students
   # POST /students.json
   def create
@@ -69,6 +73,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:name)
+      params.require(:student).permit(:name, :email, :password, :education_level, :university)
     end
 end

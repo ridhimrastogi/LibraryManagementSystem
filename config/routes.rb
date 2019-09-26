@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :universities
   get 'welcome/index'
   resources :books
   resources :librarians
@@ -10,4 +11,5 @@ Rails.application.routes.draw do
   get 'getallUsers' => 'admins#getallusers', :as => :getallusers
   get 'librarianssignup' => 'librarians#signup', :as => :librarianssignup
   get 'login' => 'librarians#login', :as => :login
+  get 'studentlogin' => 'students#login' , :as => :studentlogin
 end

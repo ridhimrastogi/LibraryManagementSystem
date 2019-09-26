@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_09_23_044429) do
+ActiveRecord::Schema.define(version: 2019_09_26_185441) do
 
   create_table "admins", force: :cascade do |t|
     t.string "name"
@@ -18,7 +18,6 @@ ActiveRecord::Schema.define(version: 2019_09_23_044429) do
     t.datetime "updated_at", null: false
     t.string "email"
     t.string "password"
-    t.index ["email"], name: "index_admins_on_email", unique: true
   end
 
   create_table "books", force: :cascade do |t|
@@ -64,6 +63,12 @@ ActiveRecord::Schema.define(version: 2019_09_23_044429) do
     t.string "education_level"
     t.string "university"
     t.integer "max_days_borrowed"
+  end
+
+  create_table "universities", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end
