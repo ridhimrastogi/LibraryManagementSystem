@@ -18,7 +18,7 @@
 
   <div class="field">
     <%= form.label :university %>
-    <%= form.text_field :university %>
+    <%= select("library", "university_id", University.all.collect{ |c| [ c.name, c.id] }) %>
   </div>
 
   <div class="field">
@@ -28,12 +28,12 @@
 
   <div class="field">
     <%= form.label :max_days_borrowed %>
-    <%= form.number_field :max_days_borrowed %>
+    <%= form.number_field :max_days_borrowed  %>
   </div>
 
   <div class="field">
     <%= form.label :overdue_fines %>
-    <%= form.number_field :overdue_fines %>
+    <%= form.number_field :overdue_fines, step: 0.5 %>
   </div>
 
   <div class="actions">

@@ -27,12 +27,13 @@ ActiveRecord::Schema.define(version: 2019_09_26_185441) do
     t.string "isbn"
     t.string "author"
     t.string "language"
-    t.time "published"
+    t.date "published"
     t.integer "edition"
     t.string "cover_image"
     t.string "subject"
     t.text "summary"
     t.boolean "special_collection"
+    t.integer "library_id"
   end
 
   create_table "librarians", force: :cascade do |t|
@@ -48,10 +49,10 @@ ActiveRecord::Schema.define(version: 2019_09_26_185441) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "university"
     t.string "location"
     t.integer "max_days_borrowed"
     t.float "overdue_fines"
+    t.integer "university_id"
   end
 
   create_table "students", force: :cascade do |t|
