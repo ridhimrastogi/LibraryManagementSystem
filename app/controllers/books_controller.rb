@@ -10,7 +10,7 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.json
   def show
-    @library = Library.find_by('id', :library_id)
+    @library = Library.find(Book.find(params[:id]).library_id)
   end
 
   # GET /books/new
@@ -36,6 +36,12 @@ class BooksController < ApplicationController
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
     end
+  end
+
+  def getlibrarybooks
+    @library_books = Book.where('library_id = ?', params[:library_id])
+    #puts "Librarian #{@librarian.id}"
+    #puts "library_books #{@library_books}"
   end
 
   # PATCH/PUT /books/1
@@ -71,6 +77,6 @@ class BooksController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
       params.require(:book).permit(:title,:isbn,:author,:language,:published,:edition,:cover_image,:subject,
-                                   :library_id,:summary,:special_collection)
+                                   :library_id,:summary,:quantity,:special_collection)
     end
 end
