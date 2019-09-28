@@ -1,10 +1,13 @@
 class Book < ApplicationRecord
+    require 'carrierwave/orm/activerecord'
+    mount_uploader :cover_image, AvatarUploader
     belongs_to :library
 
     validates :title , presence: true
     validates :isbn , presence: true
     validates :author , presence: true
     validates :language , presence: true
+    validates :library_id,presence: true
     validates :published , presence: true
     validates :edition , presence: true
     validates :cover_image , presence: true

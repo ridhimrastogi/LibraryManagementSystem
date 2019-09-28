@@ -34,6 +34,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_185441) do
     t.text "summary"
     t.boolean "special_collection"
     t.integer "library_id"
+    t.index ["library_id"], name: "index_books_on_library_id"
   end
 
   create_table "librarians", force: :cascade do |t|
@@ -53,6 +54,7 @@ ActiveRecord::Schema.define(version: 2019_09_26_185441) do
     t.integer "max_days_borrowed"
     t.float "overdue_fines"
     t.integer "university_id"
+    t.index ["university_id"], name: "index_libraries_on_university_id"
   end
 
   create_table "students", force: :cascade do |t|

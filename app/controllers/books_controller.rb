@@ -10,6 +10,7 @@ class BooksController < ApplicationController
   # GET /books/1
   # GET /books/1.json
   def show
+    @library = Library.find_by('id', :library_id)
   end
 
   # GET /books/new
@@ -69,6 +70,7 @@ class BooksController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def book_params
-      params.require(:book).permit(:title)
+      params.require(:book).permit(:title,:isbn,:author,:language,:published,:edition,:cover_image,:subject,
+                                   :library_id,:summary,:special_collection)
     end
 end
