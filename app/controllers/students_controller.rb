@@ -7,6 +7,11 @@ class StudentsController < ApplicationController
     @students = Student.all
   end
 
+  def getstudentlibraries
+    #@student_libraries = Library.all 
+    @student_libraries = Library.where('university_id = ?', params[:university_id])
+  end
+
   # GET /students/1
   # GET /students/1.json
   def show
