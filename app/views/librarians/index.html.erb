@@ -1,6 +1,5 @@
 <h1>Librarian </h1>
 
-
 <p align="right" class="navbar-text pull-left">
   <% if librarian_signed_in? %>
     Logged in as <strong> <%= current_librarian.email %></strong>.
@@ -8,3 +7,5 @@
   <%end %>
 </p>
 
+<%= link_to 'View Books', getlibrarybooks_path(:library_id => current_librarian.library_id) %> |
+<%= link_to 'Back', librarians_path %>

@@ -9,5 +9,6 @@ class AddFieldsToBooks < ActiveRecord::Migration[5.2]
     add_column :books, :subject, :string
     add_column :books, :summary, :text
     add_column :books, :special_collection, :boolean
+    add_column :books, :quantity, :integer
   end
 end

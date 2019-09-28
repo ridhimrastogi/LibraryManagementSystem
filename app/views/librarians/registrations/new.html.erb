@@ -9,8 +9,8 @@
   </div>
 
   <div class="field">
-    <%= f.label :libraryId %><br />
-    <%= f.text_field :libraryId, autocomplete: "library id" %>
+    <%= f.label :library %><br />
+    <%= select("librarian", "library_id", Library.all.collect{ |c| [ c.name, c.id] }) %>
   </div>
 
   <div class="field">

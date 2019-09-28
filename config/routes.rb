@@ -4,16 +4,17 @@ Rails.application.routes.draw do
   #devise_for :librarians
   devise_for :librarians, controllers: { sessions: 'librarians/sessions', registrations: 'librarians/registrations'}
 
-  resources :universities
   get 'welcome/index'
   resources :books
   resources :librarians
   resources :students
   resources :admins
   resources :libraries
+  resources :universities
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'getallUsers' => 'admins#getallusers', :as => :getallusers
+  get 'getlibrarybooks' => 'books#getlibrarybooks', :as => :getlibrarybooks
   get 'librarianssignup' => 'librarians#signup', :as => :librarianssignup
   get 'login' => 'librarians#login', :as => :login
   get 'studentlogin' => 'students#login' , :as => :studentlogin
