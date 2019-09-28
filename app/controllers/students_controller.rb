@@ -10,6 +10,7 @@ class StudentsController < ApplicationController
   # GET /students/1
   # GET /students/1.json
   def show
+    @university = University.find(Student.find(params[:id]).university_id)
   end
 
   # GET /students/new
@@ -29,6 +30,14 @@ class StudentsController < ApplicationController
   # POST /students.json
   def create
     @student = Student.new(student_params)
+    if @student.education_level == "Bachelors"
+      @student.max_days_borrowed = 5
+    elsif @student.education_level == "Masters"
+      @student.max_days_borrowed = 10
+    else
+      @student.max_days_borrowed = 15
+    end
+
 
     respond_to do |format|
       if @student.save
@@ -73,6 +82,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:name, :email, :password, :education_level, :university)
+      params.require(:student).permit(:name, :email, :password, :education_level, :university_id)
     end
 end
