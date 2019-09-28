@@ -1,7 +1,11 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Students</h1>
-
+<p align="right" class="navbar-text pull-left">
+  <% if student_signed_in? %>
+    Logged in as <strong> <%= current_student.email %></strong>.
+    <%= link_to "Logout", destroy_student_session_path, method: :delete, :class => 'navbar-link'  %>
+  <%end %>
 <table>
   <thead>
     <tr>

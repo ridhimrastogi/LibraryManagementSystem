@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Students::RegistrationsController < Devise::RegistrationsController
-  # before_action :configure_sign_up_params, only: [:create]
+   before_action :configure_sign_up_params, only: [:create]
   # before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
@@ -10,9 +10,13 @@ class Students::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #   super
-  # end
+   #def create
+     #puts "idhar print hai mera " + sign_up_params
+     #build_resource(sign_up_params)
+
+    # puts "Idhar #{sign_up_params}"
+    #super
+   #end
 
   # GET /resource/edit
   # def edit
@@ -41,9 +45,10 @@ class Students::RegistrationsController < Devise::RegistrationsController
   # protected
 
   # If you have extra params to permit, append them to the sanitizer.
-  # def configure_sign_up_params
-  #   devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
-  # end
+   def configure_sign_up_params
+     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :education_level, :university_id, :max_days_borrowed])
+     #devise_parameter_sanitizer.sanitize(:sign_up).merge({:max_days_borrowed=> 100})
+   end
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_account_update_params
@@ -51,9 +56,9 @@ class Students::RegistrationsController < Devise::RegistrationsController
   # end
 
   # The path used after sign up.
-  # def after_sign_up_path_for(resource)
-  #   super(resource)
-  # end
+   def after_sign_up_path_for(resource)
+     '/students'
+   end
 
   # The path used after sign up for inactive accounts.
   # def after_inactive_sign_up_path_for(resource)
