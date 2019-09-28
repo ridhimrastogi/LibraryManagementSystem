@@ -6,3 +6,6 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 Admin.create(name: 'Admin', email: 'admin@ncsu.edu', password: 'zxcv0987')
+University.create(name: 'NC State University')
+University.create(name: 'Duke University')
+University.create(name: 'UNC Chapel Hill')

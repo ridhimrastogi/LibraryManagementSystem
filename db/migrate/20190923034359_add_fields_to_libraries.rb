@@ -3,6 +3,5 @@ class AddFieldsToLibraries < ActiveRecord::Migration[5.2]
     add_column :libraries, :location, :string
     add_column :libraries, :max_days_borrowed, :integer
     add_column :libraries, :overdue_fines, :float
-    add_column :libraries, :university_id, :integer
   end
 end
