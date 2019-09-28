@@ -1,7 +1,8 @@
 class Library < ApplicationRecord
     has_many :books
     belongs_to :university
-    
+    has_many :librarian
+
     validates :name , presence: true
     validates :university_id , presence: true
     validates :location , presence: true

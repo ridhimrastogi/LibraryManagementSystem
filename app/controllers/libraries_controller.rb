@@ -10,7 +10,7 @@ class LibrariesController < ApplicationController
   # GET /libraries/1
   # GET /libraries/1.json
   def show
-    @university = University.find_by('id', :university_id)
+    @university = University.find(Library.find(params[:id]).university_id)
   end
 
   # GET /libraries/new
