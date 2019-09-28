@@ -7,7 +7,7 @@
 
 <p>
   <strong>University:</strong>
-  <%= @library.university_id %>
+  <%= @university.name %>
 </p>
 
 <p>
@@ -24,11 +24,6 @@
   <strong>Overdue Fines:</strong>
   <%= @library.overdue_fines %>
 </p>
-
-<div class="field">
-  <%= form.label :university %>
-  <%= select("library", "university_id", University.all.collect{ |c| [ c.name, c.id] }) %>
-</div>
 
 
 <%= link_to 'Edit', edit_library_path(@library) %> |
