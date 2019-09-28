@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  devise_for :students, controllers: { sessions: 'students/sessions', registrations: 'students/registrations'}
+  devise_for :admins, controllers: { sessions: 'admins/sessions', registrations: 'admins/registrations'}
+  #devise_for :librarians
+  devise_for :librarians, controllers: { sessions: 'librarians/sessions', registrations: 'librarians/registrations'}
   get 'welcome/index'
   resources :books
   resources :librarians
