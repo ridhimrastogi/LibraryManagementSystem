@@ -7,5 +7,7 @@
   <%end %>
 </p>
 
-<%= link_to 'View Books', getlibrarybooks_path(:library_id => current_librarian.library_id) %> |
+<% if librarian_signed_in? %>
+  <%= link_to 'View Books', getlibrarybooks_path(:library_id => current_librarian.library_id) %>
+<%end %>
 <%= link_to 'Back', librarians_path %>
