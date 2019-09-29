@@ -44,6 +44,15 @@ class BooksController < ApplicationController
     #puts "library_books #{@library_books}"
   end
 
+  def getstudentbooks
+    @student_books = []
+    #@library = Library.where('university_id = ?', params[:university_id]).first()
+    @libraries = Library.where('university_id = ?', params[:university_id])
+    @libraries.each do |lib|
+       @student_books << Book.where('library_id = ?',lib.id)
+       end  
+  end
+
   # PATCH/PUT /books/1
   # PATCH/PUT /books/1.json
   def update
