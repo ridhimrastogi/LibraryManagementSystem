@@ -33,10 +33,16 @@
        <td><%= book.subject %></td>
        <td><%= book.summary %></td>
        <td><%= link_to 'Show', book %></td>
-       <td><%= link_to 'Bookmark',  addbookmark_path(:id => book.id) %></td>
-       <td><%= link_to 'Unbookmark',  unbookmark_path(:id => book.id) %></td>
-       <td><%= link_to 'Checkout', checkout_path(:student_id => current_student.id,:book_id => book.id) %></td>
-
+       <% if Bookmark.where(:student_id => current_student.id,:book_id => book.id).first.nil? %>
+         <td><%= link_to 'Bookmark',  addbookmark_path(:id => book.id) %></td>
+       <%else %>
+         <td><%= link_to 'Unbookmark',  unbookmark_path(:id => book.id) %></td>
+       <%end %>
+       <% if BookIssueHistory.where(:student_id => current_student.id,:book_id => book.id,:return_date => nil).first.nil? %>
+        <td><%= link_to 'Checkout', checkout_path(:student_id => current_student.id,:book_id => book.id) %></td>
+       <%else %>
+        <td><%= link_to 'Return', return_path(:student_id => current_student.id,:book_id => book.id) %></td>
+       <%end %>
      </tr>
    <% end %>
    <% end %>

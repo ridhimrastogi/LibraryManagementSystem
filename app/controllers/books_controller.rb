@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
-
+  require 'date'
   # GET /books
   # GET /books.json
   def index
@@ -83,13 +83,30 @@ class BooksController < ApplicationController
        end  
   end
 
+  def search
+    text = params[:text]
+    @searched_books = []
+    #puts @student_books.count
+    @libraries = Library.where('university_id = ?', current_student.university_id)
+    # @libraries.each do |lib|
+    #    @student_books << Book.where('library_id = ?',lib.id)
+    # end
+    puts params[:searchby]
+    puts text
+    @libraries.each do |lib|
+      puts "here"
+      @searched_books << Book.where(:searchby => text,:library_id => lib.id)
+    end
+    #redirect_to request.referrer
+    puts @searched_books.length
+  end
+
   def checkout
-    require 'date'
     @student = Student.find(params[:student_id])
     @book = Book.find(params[:book_id])
     @holdRequest = HoldRequest.new
     quantity = @book.quantity
-    if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id).first.nil?
+    if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
       if quantity > 0
         issue_date = Date.today
         overdue_date = issue_date + (@student.max_days_borrowed).days
@@ -134,6 +151,29 @@ class BooksController < ApplicationController
     else
       redirect_to :students, notice: 'Book already checked out.'
       end
+  end
+
+  def return
+    @student = Student.find(params[:student_id])
+    @book = Book.find(params[:book_id])
+    #quantity = @book.quantity
+    unless BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
+        @book_issue_history = BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first
+        @book_issue_history.return_date = Date.today
+        @book.increment(:quantity)
+        @book.save!
+        respond_to do |format|
+          if @book_issue_history.save
+            format.html { redirect_to :students, notice: 'Book successfully returned.' }
+            format.json { render :show, status: :created, location: @book_issue_history }
+          else
+            format.html { render :new }
+            format.json { render json: @book_issue_history.errors, status: :unprocessable_entity }
+          end
+        end
+    else
+      redirect_to :students, notice: 'Book not checked out.'
+    end
   end
 
   # PATCH/PUT /books/1
