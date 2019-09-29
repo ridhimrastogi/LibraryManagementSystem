@@ -4,6 +4,10 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
+    if :admin_signed_in?
+      sign_out :student
+      redirect_to root_path
+    end
     @students = Student.all
   end
 
@@ -36,13 +40,12 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     if @student.education_level == "Bachelors"
-      @student.max_days_borrowed = 5
-    elsif @student.education_level == "Masters"
       @student.max_days_borrowed = 10
+    elsif @student.education_level == "Masters"
+      @student.max_days_borrowed = 20
     else
-      @student.max_days_borrowed = 15
+      @student.max_days_borrowed = 30
     end
-
 
     respond_to do |format|
       if @student.save
