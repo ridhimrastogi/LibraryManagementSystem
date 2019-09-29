@@ -12,6 +12,7 @@ Rails.application.routes.draw do
   resources :admins
   resources :libraries
   resources :universities
+  resources :bookmarks
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'getallUsers' => 'admins#getallusers', :as => :getallusers
@@ -23,4 +24,7 @@ Rails.application.routes.draw do
   get 'approve_librarian/:id' => 'admins#approve_librarian', :as => :approve_librarian
   get 'login' => 'librarians#login', :as => :login
   get 'studentlogin' => 'students#login' , :as => :studentlogin
+  get 'addbookmark/:id' => 'bookmarks#addbookmark', :as => :addbookmark
+  get 'unbookmark/:id' => 'bookmarks#unbookmark', :as => :unbookmark
+  get 'showbookmarks' => 'bookmarks#showbookmarks', :as => :showbookmarks
 end

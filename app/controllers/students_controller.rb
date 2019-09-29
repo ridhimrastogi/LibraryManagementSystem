@@ -4,7 +4,7 @@ class StudentsController < ApplicationController
   # GET /students
   # GET /students.json
   def index
-    if :admin_signed_in?
+    if admin_signed_in?
       sign_out :student
       redirect_to root_path
     end
