@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'getallUsers' => 'admins#getallusers', :as => :getallusers
   get 'checkout' => 'books#checkout', :as => :checkout
+  get 'return' => 'books#return', :as => :return
   get 'getlibrarybooks' => 'books#getlibrarybooks', :as => :getlibrarybooks
   get 'getstudentlibraries' => 'students#getstudentlibraries', :as => :getstudentlibraries
   get 'getstudentbooks' => 'books#getstudentbooks', :as => :getstudentbooks

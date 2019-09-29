@@ -1,6 +1,6 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
-
+  require 'date'
   # GET /books
   # GET /books.json
   def index
@@ -54,11 +54,10 @@ class BooksController < ApplicationController
   end
 
   def checkout
-    require 'date'
     @student = Student.find(params[:student_id])
     @book = Book.find(params[:book_id])
     quantity = @book.quantity
-    if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id).first.nil?
+    if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
       if quantity > 0
         issue_date = Date.today
         overdue_date = issue_date + (@student.max_days_borrowed).days
@@ -85,6 +84,29 @@ class BooksController < ApplicationController
     else
       redirect_to :students, notice: 'Book already checked out.'
       end
+  end
+
+  def return
+    @student = Student.find(params[:student_id])
+    @book = Book.find(params[:book_id])
+    #quantity = @book.quantity
+    unless BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
+        @book_issue_history = BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first
+        @book_issue_history.return_date = Date.today
+        @book.increment(:quantity)
+        @book.save!
+        respond_to do |format|
+          if @book_issue_history.save
+            format.html { redirect_to :students, notice: 'Book successfully returned.' }
+            format.json { render :show, status: :created, location: @book_issue_history }
+          else
+            format.html { render :new }
+            format.json { render json: @book_issue_history.errors, status: :unprocessable_entity }
+          end
+        end
+    else
+      redirect_to :students, notice: 'Book not checked out.'
+    end
   end
 
   # PATCH/PUT /books/1
