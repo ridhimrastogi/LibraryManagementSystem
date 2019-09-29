@@ -23,7 +23,7 @@ class AdminsController < ApplicationController
     librarianobj = Librarian.where(id: librarian_id).first
     librarianobj.approved = true
     librarianobj.save!
-    redirect_to('/admins')
+    redirect_to('/signup_approvals')
   end
 
   # GET /admins/1

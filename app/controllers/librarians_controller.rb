@@ -7,6 +7,10 @@ class LibrariansController < ApplicationController
   # GET /librarians
   # GET /librarians.json
   def index
+    if :admin_signed_in?
+      sign_out :librarian
+      redirect_to root_path
+    end
     @librarians = Librarian.all
   end
 

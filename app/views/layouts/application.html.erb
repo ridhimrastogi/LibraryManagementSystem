@@ -5,12 +5,23 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <h1 align='center'>Library Management System</h1>
+    <hr>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
+  <style>
+.footer{ 
+       position: fixed;     
+       text-align: center;    
+       bottom: 0px; 
+       width: 100%;
+   }  
+</style>
+
   <body>
     <%= yield %>
-    <h3 align='center'>Created by RubyPoetsSociety</h3>
+    <hr class='footer'>
+    <h3 class='footer'>Created by RubyPoetsSociety</h3>
   </body>
 </html>
