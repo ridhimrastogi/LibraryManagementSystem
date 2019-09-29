@@ -53,6 +53,24 @@ class BooksController < ApplicationController
        end  
   end
 
+  def search
+    text = params[:text]
+    @searched_books = []
+    #puts @student_books.count
+    @libraries = Library.where('university_id = ?', current_student.university_id)
+    # @libraries.each do |lib|
+    #    @student_books << Book.where('library_id = ?',lib.id)
+    # end
+    puts params[:searchby]
+    puts text
+    @libraries.each do |lib|
+      puts "here"
+      @searched_books << Book.where(:searchby => text,:library_id => lib.id)
+    end
+    #redirect_to request.referrer
+    puts @searched_books.length
+  end
+
   def checkout
     require 'date'
     @student = Student.find(params[:student_id])
