@@ -1,0 +1,10 @@
+
+<%if @librarians1.first %>
+  <% @librarians1.each do |lib| %>
+    <%= lib.name %>
+    <%= lib.approved %>
+    <%= link_to 'Approve', approve_librarian_path(:id => lib.id) %>
+    <%end %>
+<%else %>
+    <p>There are no approval requests currently</p>
+<% end %>

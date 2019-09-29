@@ -14,6 +14,18 @@ class AdminsController < ApplicationController
     @users2 = Librarian.all
   end
 
+  def getsignupapprovals
+    @librarians1 = Librarian.where(approved: false)
+  end
+
+  def approve_librarian
+    librarian_id = params[:id]
+    librarianobj = Librarian.where(id: librarian_id).first
+    librarianobj.approved = true
+    librarianobj.save!
+    redirect_to('/admins')
+  end
+
   # GET /admins/1
   # GET /admins/1.json
   def show
