@@ -1,9 +1,8 @@
 class LibrariansController < ApplicationController
-  before_action :authenticate_librarian! unless :admin_signed_in?
+  before_action :authenticate_librarian!,  unless :admin_signed_in?
   before_action :set_librarian, only: [:show, :edit, :update, :destroy]
 
   def login
-
   end
   # GET /librarians
   # GET /librarians.json
@@ -79,4 +78,5 @@ class LibrariansController < ApplicationController
   def librarian_params
     params.require(:librarian).permit(:password, :email)
   end
+end
 end

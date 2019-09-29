@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :book_issue_histories
   devise_for :students, controllers: { sessions: 'students/sessions', registrations: 'students/registrations'}
   devise_for :admins, controllers: { sessions: 'admins/sessions', registrations: 'admins/registrations'}
   #devise_for :librarians
@@ -13,9 +12,11 @@ Rails.application.routes.draw do
   resources :libraries
   resources :universities
   resources :bookmarks
+  resources :book_issue_histories
   root 'welcome#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   get 'getallUsers' => 'admins#getallusers', :as => :getallusers
+  get 'checkout' => 'books#checkout', :as => :checkout
   get 'getlibrarybooks' => 'books#getlibrarybooks', :as => :getlibrarybooks
   get 'getstudentlibraries' => 'students#getstudentlibraries', :as => :getstudentlibraries
   get 'getstudentbooks' => 'books#getstudentbooks', :as => :getstudentbooks

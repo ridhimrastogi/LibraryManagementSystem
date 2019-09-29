@@ -53,6 +53,40 @@ class BooksController < ApplicationController
        end  
   end
 
+  def checkout
+    require 'date'
+    @student = Student.find(params[:student_id])
+    @book = Book.find(params[:book_id])
+    quantity = @book.quantity
+    if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id).first.nil?
+      if quantity > 0
+        issue_date = Date.today
+        overdue_date = issue_date + (@student.max_days_borrowed).days
+        @book_issue_history = BookIssueHistory.new
+        @book_issue_history.book_id = @book.id
+        @book_issue_history.library_id = @book.library_id
+        @book_issue_history.student_id = @student.id
+        @book_issue_history.issue_date = issue_date
+        @book_issue_history.overdue_date = overdue_date
+        @book.decrement(:quantity)
+        @book.save!
+        respond_to do |format|
+          if @book_issue_history.save
+            format.html { redirect_to :students, notice: 'Book successfully checked out.' }
+            format.json { render :show, status: :created, location: @book_issue_history }
+          else
+            format.html { render :new }
+            format.json { render json: @book_issue_history.errors, status: :unprocessable_entity }
+          end
+        end
+      else
+        redirect_to :students, notice: 'Book not available.'
+      end
+    else
+      redirect_to :students, notice: 'Book already checked out.'
+      end
+  end
+
   # PATCH/PUT /books/1
   # PATCH/PUT /books/1.json
   def update
