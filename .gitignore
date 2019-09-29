@@ -34,3 +34,5 @@
 # Ignore project configuration files
 ./idea/*
 
+# hidden filesystem files
+.DS_Store

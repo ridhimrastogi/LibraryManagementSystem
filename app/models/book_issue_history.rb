@@ -1,0 +1,2 @@
+class BookIssueHistory < ApplicationRecord
+end
