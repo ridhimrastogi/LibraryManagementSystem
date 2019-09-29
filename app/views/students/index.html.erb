@@ -16,7 +16,7 @@
 <tbody>
   <h3><%= link_to 'View libraries', getstudentlibraries_path(:university_id => current_student.university_id) %></h3>
   <h3><%= link_to 'Edit Profile'%></h3> <%#link to added%>
-  <h3><%= link_to 'View all Books'%></h3> <%#link to added%>
+  <h3><%= link_to 'View all Books', getstudentbooks_path(:university_id => current_student.university_id)%></h3> 
   <h3><%= link_to 'Checkout a book'%></h3> <%#link to added%>
   <h3><%= link_to 'Request a Book'%></h3> <%#link to added%>
   <h3><%= link_to 'Return a book'%></h3> <%#link to added%>

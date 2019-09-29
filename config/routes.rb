@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   get 'getallUsers' => 'admins#getallusers', :as => :getallusers
   get 'getlibrarybooks' => 'books#getlibrarybooks', :as => :getlibrarybooks
   get 'getstudentlibraries' => 'students#getstudentlibraries', :as => :getstudentlibraries
+  get 'getstudentbooks' => 'books#getstudentbooks', :as => :getstudentbooks
   get 'librarianssignup' => 'librarians#signup', :as => :librarianssignup
   get 'signup_approvals' => 'admins#getsignupapprovals', :as => :get_signupapprovals
   get 'approve_librarian/:id' => 'admins#approve_librarian', :as => :approve_librarian
