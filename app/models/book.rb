@@ -3,6 +3,7 @@ class Book < ApplicationRecord
     mount_uploader :cover_image, AvatarUploader
     belongs_to :library
     belongs_to :book_issue_history, optional: true
+    has_many :hold_requests
 
     validates :title , presence: true
     validates :isbn , presence: true

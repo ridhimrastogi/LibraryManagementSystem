@@ -52,6 +52,34 @@ class BooksController < ApplicationController
     end
   end
 
+  def showrequestsforlib
+    @req = []
+    @lib = Library.where(id: current_librarian.library_id).first
+    @books_lib = Book.where(library_id: @lib.id)
+    @books_lib.each do |book_lib|
+      @req << HoldRequest.where(book_id: book_lib.id)
+    end
+   # @custom = Book.joins(:hold_requests).where("hold_requests.book_id" => book_id).where(library_id: @lib.id)
+  end
+
+  def checkedoutbookslib
+    @hists = []
+    @lib = Library.where(id: current_librarian.library_id).first
+    @books_lib = Book.where(library_id: @lib.id)
+    @books_lib.each do |book_lib|
+      @hists << BookIssueHistory.where(book_id: book_lib.id, return_date: nil)
+    end
+  end
+
+  def bookhistlib
+    @hists = []
+    @lib = Library.where(id: current_librarian.library_id).first
+    @books_lib = Book.where(library_id: @lib.id)
+    @books_lib.each do |book_lib|
+      @hists << BookIssueHistory.where(book_id: book_lib.id)
+    end
+  end 
+
   def deleterequest
     @request = HoldRequest.where(id: params[:request_id]).first
     @otherRequests = HoldRequest.where(:book_id => @request.book_id).where('queuenumber > ?' ,@request.queuenumber)

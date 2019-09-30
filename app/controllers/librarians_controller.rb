@@ -1,9 +1,8 @@
 class LibrariansController < ApplicationController
-  before_action :authenticate_librarian!,  unless :admin_signed_in?
+  before_action :authenticate_librarian
   before_action :set_librarian, only: [:show, :edit, :update, :destroy]
 
-  def login
-  end
+
   # GET /librarians
   # GET /librarians.json
   def index
@@ -69,6 +68,14 @@ class LibrariansController < ApplicationController
   end
 
   private
+
+  def authenticate_librarian
+    unless librarian_signed_in? or admin_signed_in?
+      redirect_to new_librarian_session_path
+    end
+  end
+
+  private
     # Use callbacks to share common setup or constraints between actions.
   def set_librarian
     @librarian = Librarian.find(params[:id])
@@ -78,5 +85,4 @@ class LibrariansController < ApplicationController
   def librarian_params
     params.require(:librarian).permit(:password, :email)
   end
-end
 end

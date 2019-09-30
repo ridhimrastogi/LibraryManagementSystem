@@ -1,5 +1,5 @@
 class StudentsController < ApplicationController
-  before_action :authenticate_student! unless :admin_signed_in?
+  before_action :authenticate_student
   before_action :set_student, only: [:show, :edit, :update, :destroy]
   # GET /students
   # GET /students.json
@@ -79,6 +79,14 @@ class StudentsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to students_url, notice: 'Student was successfully destroyed.' }
       format.json { head :no_content }
+    end
+  end
+
+  private
+
+  def authenticate_student
+    unless student_signed_in? or admin_signed_in?
+      redirect_to new_student_session_path
     end
   end
 
