@@ -32,5 +32,8 @@ Rails.application.routes.draw do
   get 'showrequests' => 'books#showrequests', :as => :showrequests
   get 'deleterequest/:request_id' => 'books#deleterequest', :as => :deleterequest
   get 'searchbooks' => 'books#search', :as => :search
+  get 'showrequestsforlib' => 'books#showrequestsforlib', :as => :showrequestsforlib
+  get 'checkedoutbookslib' => 'books#checkedoutbookslib', :as => :checkedoutbookslib
+  get 'bookhistlib' => 'books#bookhistlib', :as => :bookhistlib
   get 'displaysearch' => 'books#displaysearch', :as => :displaysearch
 end
