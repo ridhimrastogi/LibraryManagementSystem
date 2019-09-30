@@ -35,5 +35,5 @@ Rails.application.routes.draw do
   get 'showrequestsforlib' => 'books#showrequestsforlib', :as => :showrequestsforlib
   get 'checkedoutbookslib' => 'books#checkedoutbookslib', :as => :checkedoutbookslib
   get 'bookhistlib' => 'books#bookhistlib', :as => :bookhistlib
-
+  get 'displaysearch' => 'books#displaysearch', :as => :displaysearch
 end
