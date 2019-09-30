@@ -44,6 +44,36 @@ class BooksController < ApplicationController
     #puts "library_books #{@library_books}"
   end
 
+  def showrequests
+    @requested_books = []
+    @requests = HoldRequest.where(student_id: current_student.id)
+    @requests.each do  |request|
+      @requested_books << Book.where('id = ?', request.book_id)
+    end
+  end
+
+  def deleterequest
+    @request = HoldRequest.where(id: params[:request_id]).first
+    @otherRequests = HoldRequest.where(:book_id => @request.book_id).where('queuenumber > ?' ,@request.queuenumber)
+    respond_to do |format|
+      if @request.destroy
+        @book1 = Book.where('id = ?', @request.book_id).first
+        @book1.increment(:quantity)
+        @book1.save!
+        @otherRequests.each do |otherRequest|
+            otherRequest.decrement(:queuenumber)
+            otherRequest.save!
+
+        end
+        format.html { redirect_to :students, notice: 'Request was successfully destroyed.' }
+        format.json { head :no_content }
+      else
+        format.html { render :new }
+        format.json { render json: @request.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def getstudentbooks
     @student_books = []
     #@library = Library.where('university_id = ?', params[:university_id]).first()
@@ -86,6 +116,7 @@ class BooksController < ApplicationController
   def checkout
     @student = Student.find(params[:student_id])
     @book = Book.find(params[:book_id])
+    @holdRequest = HoldRequest.new
     quantity = @book.quantity
     if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
       if quantity > 0
@@ -109,7 +140,25 @@ class BooksController < ApplicationController
           end
         end
       else
-        redirect_to :students, notice: 'Book not available.'
+        if HoldRequest.where(student_id: @student.id, book_id: @book.id).first
+          redirect_to :students, notice: 'No books available, your hold request has already been placed'
+        else
+          @holdRequest.book_id = @book.id
+          @holdRequest.student_id = @student.id
+          @book.decrement(:quantity)
+          @book.save!
+          @holdRequest.queuenumber = (@book.quantity).abs
+
+          respond_to do |format|
+            if @holdRequest.save
+              format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
+              format.json { render :show, status: :created, location: @holdRequest }
+            else
+              format.html { render :new }
+              format.json { render json: @holdRequest.errors, status: :unprocessable_entity }
+            end
+           end
+        end
       end
     else
       redirect_to :students, notice: 'Book already checked out.'
