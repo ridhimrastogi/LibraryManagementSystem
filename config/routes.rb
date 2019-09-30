@@ -30,4 +30,5 @@ Rails.application.routes.draw do
   get 'unbookmark/:id' => 'bookmarks#unbookmark', :as => :unbookmark
   get 'showbookmarks' => 'bookmarks#showbookmarks', :as => :showbookmarks
   get 'searchbooks' => 'books#search', :as => :search
+  get 'displaysearch' => 'books#displaysearch', :as => :displaysearch
 end

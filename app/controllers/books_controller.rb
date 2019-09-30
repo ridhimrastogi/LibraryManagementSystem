@@ -53,23 +53,35 @@ class BooksController < ApplicationController
        end  
   end
 
-  def search
-    text = params[:text]
-    @searched_books = []
-    #puts @student_books.count
+  def displaysearch
+    @student_books = []
+    text = params[:search]
+    criteria = params[:search_by]
+    @searched_books = Array.new
+    
     @libraries = Library.where('university_id = ?', current_student.university_id)
-    # @libraries.each do |lib|
-    #    @student_books << Book.where('library_id = ?',lib.id)
-    # end
-    puts params[:searchby]
-    puts text
-    @libraries.each do |lib|
-      puts "here"
-      @searched_books << Book.where(:searchby => text,:library_id => lib.id)
+      if criteria == 'title'
+        @libraries.each do |lib|
+        @searched_books.push Book.where('title LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
+      end
+      elsif criteria == 'author'
+        @libraries.each do |lib|
+        @searched_books.push Book.where('author LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
+      end
+      elsif criteria == 'subject'
+        @libraries.each do |lib|
+        @searched_books.push Book.where('subject LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
+      end
+      elsif criteria == 'publication date'
+        @libraries.each do |lib|
+        @searched_books.push Book.where('published LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
+      end
     end
-    #redirect_to request.referrer
-    puts @searched_books.length
   end
+
+  def search
+  end
+
 
   def checkout
     @student = Student.find(params[:student_id])
