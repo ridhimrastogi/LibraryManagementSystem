@@ -177,10 +177,19 @@ class BooksController < ApplicationController
           @book.save!
           @holdRequest.queuenumber = (@book.quantity).abs
 
+          unless @book.special_collection
+            @holdRequest.approved = true
+          end
+
           respond_to do |format|
-            if @holdRequest.save
+            if @holdRequest.save and @book.special_collection
+              format.html { redirect_to :students, notice: "Hold request has been sent for approval."}
+              format.json { render :show, status: :created, location: @holdRequest }
+
+            elsif @holdRequest.save and not @book.special_collection
               format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
               format.json { render :show, status: :created, location: @holdRequest }
+
             else
               format.html { render :new }
               format.json { render json: @holdRequest.errors, status: :unprocessable_entity }
