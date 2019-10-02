@@ -1,36 +1,23 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Students</h1>
 <p align="right" class="navbar-text pull-left">
   <% if student_signed_in? %>
     Logged in as <strong> <%= current_student.email %></strong>.
     <%= link_to "Logout", destroy_student_session_path, method: :delete, :class => 'navbar-link'  %>
     <%= link_to 'Edit profile', edit_student_registration_path,  :class => 'navbar-link' %>
   <%end %>
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
-<tbody>
   <% if student_signed_in? %>
+    <h1>Student Dashboard</h1>
     <h3><%= link_to 'View libraries', getstudentlibraries_path(:university_id => current_student.university_id) %></h3>
     <h3><%= link_to 'View all Books', getstudentbooks_path(:university_id => current_student.university_id)%></h3>
+    <h3><%= link_to 'Return a book'%></h3> <%#link to added%>
+    <h3><%= link_to 'Delete a hold request', showrequests_path %></h3>
+    <h3><%= link_to 'View Profile'%></h3> <%#link to added%>
+    <h3><%= link_to 'Search Books', search_path%></h3> 
+    <h3><%= link_to 'View Bookmarks', showbookmarks_path %></h3> 
+    <h3><%= link_to 'View Overdue fine'%></h3> <%#link to added%>
   <%end %>
-  <h3><%= link_to 'Checkout a book'%></h3> <%#link to added%>
-  <h3><%= link_to 'Request a Book'%></h3> <%#link to added%>
-  <h3><%= link_to 'Return a book'%></h3> <%#link to added%>
-  <h3><%= link_to 'Delete a hold request', showrequests_path %></h3>
-  <h3><%= link_to 'View Profile'%></h3> <%#link to added%>
-  <h3><%= link_to 'Search Books', search_path%></h3> 
-  <h3><%= link_to 'View Bookmarks', showbookmarks_path %></h3> 
-  <h3><%= link_to 'View Overdue fine'%></h3> <%#link to added%>
-</tbody>
   
-</table>
 
-<br>
+  
 
-<%= link_to 'New Student', new_student_path %>
