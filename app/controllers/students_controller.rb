@@ -16,6 +16,11 @@ class StudentsController < ApplicationController
     @student_libraries = Library.where('university_id = ?', params[:university_id])
   end
 
+  def showstudentprofile
+    @student_profile = Student.where('id = ?', current_student.id).first
+    @student_university = University.first(current_student.university_id).first
+  end
+
   # GET /students/1
   # GET /students/1.json
   def show

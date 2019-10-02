@@ -36,4 +36,5 @@ Rails.application.routes.draw do
   get 'checkedoutbookslib' => 'books#checkedoutbookslib', :as => :checkedoutbookslib
   get 'bookhistlib' => 'books#bookhistlib', :as => :bookhistlib
   get 'displaysearch' => 'books#displaysearch', :as => :displaysearch
+  get 'showstudentprofile' => 'students#showstudentprofile', :as => :showstudentprofile
 end
