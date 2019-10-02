@@ -13,6 +13,23 @@ class LibrariansController < ApplicationController
     @librarians = Librarian.all
   end
 
+  def specialcollectionbooks
+    @req_coll = []
+    @lib = Library.where(id: current_librarian.library_id).first
+    @books_lib = Book.where(library_id: @lib.id)
+    @books_lib.each do |book_lib|
+      @req_coll << HoldRequest.where(book_id: book_lib.id, approved: false)
+    end
+
+  end
+  def approve_sprequest
+    req_id = params[:id]
+    spreqobj = HoldRequest.where(id: req_id).first
+    spreqobj.approved = true
+    spreqobj.save!
+    redirect_to('/specialcollectionbooks')
+  end
+
   # GET /librarians/1
   # GET /librarians/1.json
   def show

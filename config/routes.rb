@@ -37,4 +37,6 @@ Rails.application.routes.draw do
   get 'bookhistlib' => 'books#bookhistlib', :as => :bookhistlib
   get 'displaysearch' => 'books#displaysearch', :as => :displaysearch
   get 'showstudentprofile' => 'students#showstudentprofile', :as => :showstudentprofile
+  get 'specialcollectionbooks' => 'librarians#specialcollectionbooks', :as => :specialcollectionbooks
+  get 'approve_sprequest/:id' => 'librarians#approve_sprequest', :as => :approve_sprequest
 end

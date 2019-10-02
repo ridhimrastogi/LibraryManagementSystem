@@ -144,12 +144,13 @@ class BooksController < ApplicationController
   def checkout
     @student = Student.find(params[:student_id])
     @book = Book.find(params[:book_id])
+    @library = Library.where(id: @book.library_id).first
     @holdRequest = HoldRequest.new
     quantity = @book.quantity
     if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
       if quantity > 0
         issue_date = Date.today
-        overdue_date = issue_date + (@student.max_days_borrowed).days
+        overdue_date = issue_date + (@library.max_days_borrowed).days
         @book_issue_history = BookIssueHistory.new
         @book_issue_history.book_id = @book.id
         @book_issue_history.library_id = @book.library_id
@@ -177,10 +178,19 @@ class BooksController < ApplicationController
           @book.save!
           @holdRequest.queuenumber = (@book.quantity).abs
 
+          unless @book.special_collection
+            @holdRequest.approved = true
+          end
+
           respond_to do |format|
-            if @holdRequest.save
+            if @holdRequest.save and @book.special_collection
+              format.html { redirect_to :students, notice: "Hold request has been sent for approval."}
+              format.json { render :show, status: :created, location: @holdRequest }
+
+            elsif @holdRequest.save and not @book.special_collection
               format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
               format.json { render :show, status: :created, location: @holdRequest }
+
             else
               format.html { render :new }
               format.json { render json: @holdRequest.errors, status: :unprocessable_entity }
