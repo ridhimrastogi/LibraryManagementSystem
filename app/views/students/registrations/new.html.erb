@@ -29,7 +29,7 @@
   <div class="form-group">
     <%= f.label :education_level %>
     <%= f.label :bachelors, 'Bachelors' %>
-    <%= f.hidden_field :max_days_borrowed %>
+    <%= f.hidden_field :max_books_borrowed %>
     <%= f.radio_button :education_level, 'Bachelors' %>
     <%= f.label :masters, 'Masters' %>
     <%= f.radio_button :education_level, 'Masters' %><br />
@@ -57,17 +57,17 @@
                 prev = this;
             }
             education_level = this.value;
-            let max_days_borrowed = 0;
+            let max_books_borrowed = 0;
             if(education_level == 'Bachelors'){
-                max_days_borrowed = 10;
+                max_books_borrowed = 3;
             }
             else if(education_level == 'Masters'){
-                max_days_borrowed = 20;
+                max_books_borrowed = 5;
             }
             else if(education_level == 'Phd'){
-                max_days_borrowed = 30;
+                max_books_borrowed = 10;
             }
-            document.getElementById('student_max_days_borrowed').value = max_days_borrowed;
+            document.getElementById('student_max_books_borrowed').value = max_books_borrowed;
         });
     }
 </script>

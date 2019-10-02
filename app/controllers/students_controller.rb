@@ -40,11 +40,11 @@ class StudentsController < ApplicationController
   def create
     @student = Student.new(student_params)
     if @student.education_level == "Bachelors"
-      @student.max_days_borrowed = 10
+      @student.max_books_borrowed = 10
     elsif @student.education_level == "Masters"
-      @student.max_days_borrowed = 20
+      @student.max_books_borrowed = 20
     else
-      @student.max_days_borrowed = 30
+      @student.max_books_borrowed = 30
     end
 
     respond_to do |format|
@@ -98,6 +98,6 @@ class StudentsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def student_params
-      params.require(:student).permit(:name, :email, :password, :education_level, :university_id)
+      params.require(:student).permit(:name, :email, :password, :education_level, :university_id, :max_books_borrowed)
     end
 end

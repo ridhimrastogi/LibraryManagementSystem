@@ -144,12 +144,13 @@ class BooksController < ApplicationController
   def checkout
     @student = Student.find(params[:student_id])
     @book = Book.find(params[:book_id])
+    @library = Library.where(id: @book.library_id).first
     @holdRequest = HoldRequest.new
     quantity = @book.quantity
     if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
       if quantity > 0
         issue_date = Date.today
-        overdue_date = issue_date + (@student.max_days_borrowed).days
+        overdue_date = issue_date + (@library.max_days_borrowed).days
         @book_issue_history = BookIssueHistory.new
         @book_issue_history.book_id = @book.id
         @book_issue_history.library_id = @book.library_id
