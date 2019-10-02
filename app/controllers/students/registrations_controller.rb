@@ -46,8 +46,7 @@ class Students::RegistrationsController < Devise::RegistrationsController
 
   # If you have extra params to permit, append them to the sanitizer.
    def configure_sign_up_params
-     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :education_level, :university_id, :max_days_borrowed])
-     #devise_parameter_sanitizer.sanitize(:sign_up).merge({:max_days_borrowed=> 100})
+     devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :education_level, :university_id, :max_books_borrowed])
    end
 
   # If you have extra params to permit, append them to the sanitizer.
