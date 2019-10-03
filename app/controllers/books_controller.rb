@@ -229,6 +229,7 @@ class BooksController < ApplicationController
         @book.save!
         respond_to do |format|
           if @book_issue_history.save
+            updateHoldRequests(@book)
             format.html { redirect_to :students, notice: 'Book successfully returned.' }
             format.json { render :show, status: :created, location: @book_issue_history }
           else
@@ -241,6 +242,18 @@ class BooksController < ApplicationController
     end
   end
 
+  def updateHoldRequests(book)
+    @approvedreqs = HoldRequest.where(book_id: book.id, approved: true ).order(:queuenumber)
+    puts @approvedreqs.first.queuenumber
+    qn = @approvedreqs.first.queuenumber
+    @approvedreqs.first.destroy!
+    @reqs = HoldRequest.where(book_id: book.id)
+    @reqs.each do |req|
+      if req.queuenumber > qn
+        req.queuenumber -= 1
+      end
+    end
+  end
   # PATCH/PUT /books/1
   # PATCH/PUT /books/1.json
   def update
