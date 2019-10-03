@@ -16,6 +16,6 @@ class Book < ApplicationRecord
     validates :cover_image , presence: true
     validates :subject , presence: true
     validates :summary , presence: true
-    validates :special_collection , presence: true
+    validates_inclusion_of :special_collection, :in => [true, false]
 
 end

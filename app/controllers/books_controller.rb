@@ -145,11 +145,11 @@ class BooksController < ApplicationController
     #@holdRequest = HoldRequest.new
     quantity = @book.quantity
     if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
-        if checkout_count == @student.max_books_borrowed
+        if checkout_count == @student.max_books_borrowed || @book.special_collection
         #redirect_to request.referrer, notice: "Maximum books checked out already"
         hold_request(@student,@book,checkout_count)
         return
-      end
+        end
       if quantity > 0
         issue_date = Date.today
         overdue_date = issue_date + (@library.max_days_borrowed).days
@@ -193,13 +193,22 @@ class BooksController < ApplicationController
       end
       maxcount += 1
       @holdRequest.queuenumber = maxcount
+
+      unless @book.special_collection
+        @holdRequest.approved = true
+      end
+
       respond_to do |format|
         if @holdRequest.save
           if checkout_count == student.max_books_borrowed
             format.html { redirect_to :students, notice: "You have reached your book limit, Hold request created your number in queue is #{@holdRequest.queuenumber}" }
-          else
-          format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
+          elsif @book.special_collection
+          format.html { redirect_to :students, notice: "Hold request created, your number in queue is
+                #{@holdRequest.queuenumber}.\nBook will be issued pending approval" }
           format.json { render :show, status: :created, location: @holdRequest }
+          else
+            format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
+            format.json { render :show, status: :created, location: @holdRequest }
           end
         else
           format.html { render :new }
