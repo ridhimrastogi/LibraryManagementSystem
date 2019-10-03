@@ -229,7 +229,7 @@ class BooksController < ApplicationController
         @book.save!
         respond_to do |format|
           if @book_issue_history.save
-            updateHoldRequests(@book, @student)
+            updateHoldRequests(@book)
             format.html { redirect_to :students, notice: 'Book successfully returned.' }
             format.json { render :show, status: :created, location: @book_issue_history }
           else
@@ -242,32 +242,33 @@ class BooksController < ApplicationController
     end
   end
 
-  def updateHoldRequests(book, student)
+  def updateHoldRequests(book)
     @library = Library.where(id: book.library_id).first
     @approvedreqs = HoldRequest.where(book_id: book.id, approved: true ).order(:queuenumber)
-    puts @approvedreqs.first.queuenumber
-    qn = @approvedreqs.first.queuenumber
-
-    checkout_count = BookIssueHistory.where(:student_id => student.id,:return_date  => nil).count
-    if book.quantity > 0 && checkout_count != student.max_books_borrowed
-      issue_date = Date.today
-      overdue_date = issue_date + (@library.max_days_borrowed).days
-      @book_issue_history = BookIssueHistory.new
-      @book_issue_history.book_id = book.id
-      @book_issue_history.library_id = book.library_id
-      @book_issue_history.student_id = student.id
-      @book_issue_history.issue_date = issue_date
-      @book_issue_history.overdue_date = overdue_date
-      @book.decrement(:quantity)
-      @book.save!
-      @book_issue_history.save!
-    end
-
-    @approvedreqs.first.destroy!
-    @reqs = HoldRequest.where(book_id: book.id)
-    @reqs.each do |req|
-      if req.queuenumber > qn
-        req.queuenumber -= 1
+    #puts @approvedreqs.first.queuenumber
+    unless @approvedreqs.first.nil?
+      qn = @approvedreqs.first.queuenumber
+      student = Student.find(@approvedreqs.first.student_id)
+      checkout_count = BookIssueHistory.where(:student_id => student.id,:return_date  => nil).count
+      if book.quantity > 0 && checkout_count != student.max_books_borrowed
+        issue_date = Date.today
+        overdue_date = issue_date + (@library.max_days_borrowed).days
+        @book_issue_history = BookIssueHistory.new
+        @book_issue_history.book_id = book.id
+        @book_issue_history.library_id = book.library_id
+        @book_issue_history.student_id = student.id
+        @book_issue_history.issue_date = issue_date
+        @book_issue_history.overdue_date = overdue_date
+        @book.decrement(:quantity)
+        @book.save!
+        @book_issue_history.save!
+        @approvedreqs.first.destroy!
+        @reqs = HoldRequest.where(book_id: book.id)
+        @reqs.each do |req|
+          if req.queuenumber > qn
+            req.queuenumber -= 1
+          end
+        end
       end
     end
   end
