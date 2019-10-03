@@ -89,7 +89,7 @@ class BooksController < ApplicationController
             otherRequest.decrement(:queuenumber)
             otherRequest.save!
         end
-        format.html { redirect_to :students, notice: 'Request was successfully destroyed.' }
+        format.html { redirect_to :root, notice: 'Request was successfully destroyed.' }
         format.json { head :no_content }
       else
         format.html { render :new }
@@ -142,7 +142,6 @@ class BooksController < ApplicationController
     @book = Book.find(params[:book_id])
     @library = Library.where(id: @book.library_id).first
     checkout_count = BookIssueHistory.where(:student_id => @student.id,:return_date  => nil).count
-    #@holdRequest = HoldRequest.new
     quantity = @book.quantity
     if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
         if checkout_count == @student.max_books_borrowed || @book.special_collection
@@ -182,6 +181,7 @@ class BooksController < ApplicationController
     if HoldRequest.where(student_id: student.id, book_id: book.id).first
       redirect_to :students, notice: 'No books available, your hold request has already been placed'
     else
+      @holdRequest = HoldRequest.new
       @holdRequest.book_id = book.id
       @holdRequest.student_id = student.id
       @otherRequests = HoldRequest.where(:book_id => book.id)

@@ -3,7 +3,7 @@
 class Librarians::RegistrationsController < Devise::RegistrationsController
    before_action :configure_sign_up_params, only: [:create]
   # before_action :check_if_logged_in
-  # before_action :configure_account_update_params, only: [:update]
+   before_action :configure_account_update_params, only: [:update]
 
   # GET /resource/sign_up
   # def new
@@ -56,10 +56,10 @@ class Librarians::RegistrationsController < Devise::RegistrationsController
      devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :library_id, :email, :password])
    end
 
-  # If you have extra params to permit, append them to the sanitizer.
-  # def configure_account_update_params
-  #   devise_parameter_sanitizer.permit(:account_update, keys: [:attribute])
-  # end
+  #If you have extra params to permit, append them to the sanitizer.
+  def configure_account_update_params
+    devise_parameter_sanitizer.permit(:account_update, keys: [:library_id, :password])
+  end
 
   # The path used after sign up.
    def after_sign_up_path_for(resource)

@@ -58,5 +58,7 @@
   <%= @book.special_collection %>
 </p>
 
+<% if admin_signed_in? or librarian_signed_in? %>
 <%= link_to 'Edit', edit_book_path(@book) %> |
+<%end %>
 <%= link_to 'Back', welcome_index_path %>

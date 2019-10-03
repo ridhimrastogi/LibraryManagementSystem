@@ -27,7 +27,27 @@ class LibrariansController < ApplicationController
     spreqobj = HoldRequest.where(id: req_id).first
     spreqobj.approved = true
     spreqobj.save!
+    @student = Student.find(spreqobj.student_id)
+    @book = Book.find(spreqobj.book_id)
+    @library = Library.where(id: @book.library_id).first
+    checkout_count = BookIssueHistory.where(:student_id => @student.id,:return_date  => nil).count
+    if @book.quantity > 0 && checkout_count != @student.max_books_borrowed
+      issue_date = Date.today
+      overdue_date = issue_date + (@library.max_days_borrowed).days
+      @book_issue_history = BookIssueHistory.new
+      @book_issue_history.book_id = @book.id
+      @book_issue_history.library_id = @book.library_id
+      @book_issue_history.student_id = @student.id
+      @book_issue_history.issue_date = issue_date
+      @book_issue_history.overdue_date = overdue_date
+      @book.decrement(:quantity)
+      @book.save!
+      @book_issue_history.save!
+      redirect_to deleterequest_path(:request_id => spreqobj.id)
+      return
+    end
     redirect_to('/specialcollectionbooks')
+    return
   end
 
   # GET /librarians/1
