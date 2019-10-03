@@ -100,7 +100,6 @@ class BooksController < ApplicationController
 
   def getstudentbooks
     @student_books = []
-    #@library = Library.where('university_id = ?', params[:university_id]).first()
     @libraries = Library.where('university_id = ?', params[:university_id])
     @libraries.each do |lib|
        @student_books << Book.where('library_id = ?',lib.id)
@@ -115,18 +114,23 @@ class BooksController < ApplicationController
     
     @libraries = Library.where('university_id = ?', current_student.university_id)
       if criteria == 'title'
+        text = text.downcase
         @libraries.each do |lib|
         @searched_books.push Book.where('title LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
       end
       elsif criteria == 'author'
+        text = text.downcase
         @libraries.each do |lib|
         @searched_books.push Book.where('author LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
       end
       elsif criteria == 'subject'
+        text = text.downcase
         @libraries.each do |lib|
         @searched_books.push Book.where('subject LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
       end
       elsif criteria == 'publication date'
+        #text = text.to_date
+        #text = Date.parse(text)
         @libraries.each do |lib|
         @searched_books.push Book.where('published LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
       end
