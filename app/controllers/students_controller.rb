@@ -21,6 +21,21 @@ class StudentsController < ApplicationController
     @student_university = University.first(current_student.university_id).first
   end
 
+  def studentoverduefine
+    @issued_books = BookIssueHistory.where(:student_id => current_student.id,:return_date  => nil)
+    @overduefines = Array.new
+    
+    @issued_books.each do |book|
+      if(book.overdue_date < Date.today)
+        fine_value = (Library.where('id = ?',Book.where('id = ?',book.book_id).first.library_id)).first.overdue_fines
+        fine = (Date.today - book.overdue_date) * fine_value
+        @overduefines.push ({:book_id => book.book_id, :fine_value => fine})
+      else
+        @overduefines.push ({:book_id => book.book_id, :fine_value => 0})
+      end
+    end
+  end
+
   # GET /students/1
   # GET /students/1.json
   def show
