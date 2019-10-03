@@ -85,13 +85,9 @@ class BooksController < ApplicationController
     @otherRequests = HoldRequest.where(:book_id => @request.book_id).where('queuenumber > ?' ,@request.queuenumber)
     respond_to do |format|
       if @request.destroy
-        @book1 = Book.where('id = ?', @request.book_id).first
-        @book1.increment(:quantity)
-        @book1.save!
         @otherRequests.each do |otherRequest|
             otherRequest.decrement(:queuenumber)
             otherRequest.save!
-
         end
         format.html { redirect_to :students, notice: 'Request was successfully destroyed.' }
         format.json { head :no_content }
@@ -145,9 +141,15 @@ class BooksController < ApplicationController
     @student = Student.find(params[:student_id])
     @book = Book.find(params[:book_id])
     @library = Library.where(id: @book.library_id).first
-    @holdRequest = HoldRequest.new
+    checkout_count = BookIssueHistory.where(:student_id => @student.id,:return_date  => nil).count
+    #@holdRequest = HoldRequest.new
     quantity = @book.quantity
     if BookIssueHistory.where(:student_id => @student.id, :book_id => @book.id,:return_date  => nil).first.nil?
+        if checkout_count == @student.max_books_borrowed || @book.special_collection
+        #redirect_to request.referrer, notice: "Maximum books checked out already"
+        hold_request(@student,@book,checkout_count)
+        return
+        end
       if quantity > 0
         issue_date = Date.today
         overdue_date = issue_date + (@library.max_days_borrowed).days
@@ -169,38 +171,51 @@ class BooksController < ApplicationController
           end
         end
       else
-        if HoldRequest.where(student_id: @student.id, book_id: @book.id).first
-          redirect_to :students, notice: 'No books available, your hold request has already been placed'
-        else
-          @holdRequest.book_id = @book.id
-          @holdRequest.student_id = @student.id
-          @book.decrement(:quantity)
-          @book.save!
-          @holdRequest.queuenumber = (@book.quantity).abs
-
-          unless @book.special_collection
-            @holdRequest.approved = true
-          end
-
-          respond_to do |format|
-            if @holdRequest.save and @book.special_collection
-              format.html { redirect_to :students, notice: "Hold request has been sent for approval."}
-              format.json { render :show, status: :created, location: @holdRequest }
-
-            elsif @holdRequest.save and not @book.special_collection
-              format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
-              format.json { render :show, status: :created, location: @holdRequest }
-
-            else
-              format.html { render :new }
-              format.json { render json: @holdRequest.errors, status: :unprocessable_entity }
-            end
-           end
-        end
+        hold_request(@student, @book,checkout_count)
       end
     else
       redirect_to :students, notice: 'Book already checked out.'
       end
+  end
+
+  def hold_request (student , book, checkout_count)
+    if HoldRequest.where(student_id: student.id, book_id: book.id).first
+      redirect_to :students, notice: 'No books available, your hold request has already been placed'
+    else
+      @holdRequest.book_id = book.id
+      @holdRequest.student_id = student.id
+      @otherRequests = HoldRequest.where(:book_id => book.id)
+      maxcount = 0
+      @otherRequests.each do |otherRequest|
+        if otherRequest.queuenumber > maxcount
+          maxcount = otherRequest.queuenumber
+        end
+      end
+      maxcount += 1
+      @holdRequest.queuenumber = maxcount
+
+      unless @book.special_collection
+        @holdRequest.approved = true
+      end
+
+      respond_to do |format|
+        if @holdRequest.save
+          if checkout_count == student.max_books_borrowed
+            format.html { redirect_to :students, notice: "You have reached your book limit, Hold request created your number in queue is #{@holdRequest.queuenumber}" }
+          elsif @book.special_collection
+          format.html { redirect_to :students, notice: "Hold request created, your number in queue is
+                #{@holdRequest.queuenumber}.\nBook will be issued pending approval" }
+          format.json { render :show, status: :created, location: @holdRequest }
+          else
+            format.html { redirect_to :students, notice: "Hold request has been placed, your number in queue is #{@holdRequest.queuenumber}" }
+            format.json { render :show, status: :created, location: @holdRequest }
+          end
+        else
+          format.html { render :new }
+          format.json { render json: @holdRequest.errors, status: :unprocessable_entity }
+        end
+      end
+    end
   end
 
   def return
