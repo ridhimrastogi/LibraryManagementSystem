@@ -9,14 +9,12 @@
   </tr>
   </thead>
   <tbody>
-  <% @book_issue_hist.each do |hist| %>
+  <% @overduefines.zip(@book_issue_hist).each do |hash,hist| %>
       <tr>
         <td colspan="3"> <%= Student.find(hist.student_id).name %> </td>
         <td colspan="3"> <%= Book.find(hist.book_id).title %> </td>
         <td colspan="3"> <%= hist.issue_date %> </td>
-        <% @overduefines.each do |hash| %>
-          <td colspan="3"><%= hash[:fine_value] %></td>
-        <% end %>
+        <td colspan="3"><%= hash[:fine_value] %></td>
         <td colspan="3"><%= link_to 'Show Student details', Student.find(hist.student_id) %></td>
       </tr>
     <% end %>
