@@ -5,7 +5,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
     <h1 align='center'>Library Management System</h1>
-    <hr>
+    <% unless current_page?(root_path)%>
+    <h3 align='center'> <%= link_to 'Home', root_path%> </h3>
+    <% end %>
+   <hr>    
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
