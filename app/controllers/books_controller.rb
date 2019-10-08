@@ -119,36 +119,23 @@ class BooksController < ApplicationController
        end  
   end
 
+
   def displaysearch
-    @student_books = []
-    text = params[:search]
-    criteria = params[:search_by]
-    @searched_books = Array.new
-    
-    @libraries = Library.where('university_id = ?', current_student.university_id)
-      if criteria == 'title'
-        text = text.downcase
+      text = params[:search]
+      criteria = params[:search_by]
+      @searched_books = Array.new
+      @libraries = Library.where('university_id = ?', current_student.university_id)
+      if (criteria == 'publication date')
         @libraries.each do |lib|
-        @searched_books.push Book.where('title LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
-      end
-      elsif criteria == 'author'
-        text = text.downcase
+        @searched_books.push Book.where('published' + ' = ?', text).where('library_id  = ?', lib.id)
+        end
+      else
         @libraries.each do |lib|
-        @searched_books.push Book.where('author LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
-      end
-      elsif criteria == 'subject'
-        text = text.downcase
-        @libraries.each do |lib|
-        @searched_books.push Book.where('subject LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
-      end
-      elsif criteria == 'publication date'
-        #text = text.to_date
-        #text = Date.parse(text)
-        @libraries.each do |lib|
-        @searched_books.push Book.where('published LIKE ?',"%#{text}%").where('library_id  = ?', lib.id)
+        @searched_books.push Book.where('lower('+ criteria +') like ?', '%'+text+'%').where('library_id  = ?', lib.id)
       end
     end
   end
+
 
   def search
   end
