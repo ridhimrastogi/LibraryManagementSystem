@@ -5,7 +5,7 @@
 
 #### Admin login
 
-Email: admin1@ncsu.edu
+Email: admin@ncsu.edu
 Password: zxcv0987
 
 #### Note:
