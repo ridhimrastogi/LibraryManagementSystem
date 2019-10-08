@@ -59,13 +59,13 @@
             education_level = this.value;
             let max_books_borrowed = 0;
             if(education_level == 'Bachelors'){
-                max_books_borrowed = 3;
+                max_books_borrowed = 2;
             }
             else if(education_level == 'Masters'){
-                max_books_borrowed = 5;
+                max_books_borrowed = 4;
             }
             else if(education_level == 'Phd'){
-                max_books_borrowed = 10;
+                max_books_borrowed = 6;
             }
             document.getElementById('student_max_books_borrowed').value = max_books_borrowed;
         });
