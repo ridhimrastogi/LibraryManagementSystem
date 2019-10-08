@@ -1,6 +1,6 @@
 class BookIssueHistory < ApplicationRecord
-  has_many :books
-  has_many :students
+  belongs_to :book
+  belongs_to :student
   validates :issue_date , presence: true
   validates :overdue_date , presence: true
   validates :book_id , presence: true

@@ -3,6 +3,12 @@
 <p>
   <strong>Name:</strong>
   <%= @librarian.name %>
+<br>
+  <strong>Email ID:</strong>
+  <%= @librarian.email %>
+<br>
+  <strong>Library:</strong>
+  <%= Library.find(@librarian.library_id).name %>
 </p>
 
 <%= link_to 'Edit', edit_librarian_path(@librarian) %> |

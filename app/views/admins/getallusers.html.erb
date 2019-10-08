@@ -1,14 +1,36 @@
 <h3> All Users </h3>
 
 <table>
+  <thead>
+  <tr>
+    <th colspan="3">Librarian</th>
+  </tr>
+  </thead>
   <tbody>
-    <th><%= 'Students:' %><br /></th>
-    <% @users1.each do |user1| %>
-      <td><%= user1.name %></td>
-    <% end %>
-    <th><%= 'Librarians:' %></th>
-    <% @users2.each do |user2| %>
-      <td><%= user2.name %></td>
-    <% end %>
+  <% @users2.each do |lib| %>
+    <tr>
+      <td colspan="3"> <%= lib.name %> </td>
+      <td colspan="3"> <%= link_to 'Show', lib %> </td>
+      <td><%= link_to 'Destroy', lib, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<br>
+<br>
+<table>
+  <thead>
+  <tr>
+    <th colspan="3">Student</th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @users1.each do |student| %>
+    <tr>
+      <td colspan="3"> <%= student.name %> </td>
+      <td colspan="3"> <%= link_to 'Show', student %> </td>
+      <td><%= link_to 'Destroy', student, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+    </tr>
+  <% end %>
   </tbody>
 </table>

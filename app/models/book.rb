@@ -2,7 +2,7 @@ class Book < ApplicationRecord
     require 'carrierwave/orm/activerecord'
     mount_uploader :cover_image, AvatarUploader
     belongs_to :library
-    belongs_to :book_issue_history, optional: true
+    has_many :book_issue_history, dependent: :destroy
     has_many :hold_requests
 
     validates :title , presence: true

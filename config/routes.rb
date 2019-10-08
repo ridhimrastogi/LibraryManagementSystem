@@ -40,4 +40,5 @@ Rails.application.routes.draw do
   get 'specialcollectionbooks' => 'librarians#specialcollectionbooks', :as => :specialcollectionbooks
   get 'approve_sprequest/:id' => 'librarians#approve_sprequest', :as => :approve_sprequest
   get 'studentoverduefine' => 'students#studentoverduefine', :as => :studentoverduefine
+  get 'studentcheckedout' => 'students#studentcheckedout', :as => :studentcheckedout
 end

@@ -23,9 +23,13 @@ class StudentsController < ApplicationController
 
   def studentoverduefine
     @issued_books = BookIssueHistory.where(:student_id => current_student.id,:return_date  => nil)
+    extract_overdue_fine(@issued_books)
+  end
+
+  def extract_overdue_fine(issued_books)
     @overduefines = Array.new
-    
-    @issued_books.each do |book|
+
+    issued_books.each do |book|
       if(book.overdue_date < Date.today)
         fine_value = (Library.where('id = ?',Book.where('id = ?',book.book_id).first.library_id)).first.overdue_fines
         fine = (Date.today - book.overdue_date) * fine_value
@@ -80,6 +84,11 @@ class StudentsController < ApplicationController
 
   # PATCH/PUT /students/1
   # PATCH/PUT /students/1.json
+  def studentcheckedout
+    @book_issue_hist = BookIssueHistory.where(return_date: nil)
+    extract_overdue_fine(@book_issue_hist)
+  end
+
   def update
     respond_to do |format|
       if @student.update(student_params)
