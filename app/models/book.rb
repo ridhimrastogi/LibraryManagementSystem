@@ -3,10 +3,11 @@ class Book < ApplicationRecord
     mount_uploader :cover_image, AvatarUploader
     belongs_to :library
     belongs_to :book_issue_history, optional: true
-    has_many :hold_requests
+    has_many :hold_requests, dependent: :destroy
+    has_many :bookmarks, dependent: :destroy
 
     validates :title , presence: true
-    validates :isbn , presence: true
+    validates :isbn , presence: true, uniqueness: true
     validates :author , presence: true
     validates :language , presence: true
     validates :library_id,presence: true

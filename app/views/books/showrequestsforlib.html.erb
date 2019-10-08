@@ -3,6 +3,8 @@
   <thead>
   <tr>
     <th colspan="3">Student Name</th>
+    <th colspan="3">Email ID</th>
+    <th colspan="3">Education Level</th>
     <th colspan="3">Book Name</th>
     <th colspan="3">Queue Number</th>
   </tr>
@@ -12,6 +14,8 @@
   <% requests.each do |request| %>
   <tr>
     <td colspan="3"> <%= Student.find(request.student_id).name %> </td>
+    <td colspan="3"> <%= Student.find(request.student_id).email %> </td>
+    <td colspan="3"> <%= Student.find(request.student_id).education_level %> </td>
     <td colspan="3"> <%= Book.find(request.book_id).title %> </td>
     <td colspan="3"> <%= request.queuenumber %> </td>
   </tr>

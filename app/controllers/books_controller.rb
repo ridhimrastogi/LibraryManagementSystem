@@ -1,9 +1,12 @@
 class BooksController < ApplicationController
   before_action :set_book, only: [:show, :edit, :update, :destroy]
   require 'date'
+ # before_action :new, :check_if_student
   # GET /books
   # GET /books.json
+
   def index
+    check_if_student
     @books = Book.all
   end
 
@@ -15,11 +18,15 @@ class BooksController < ApplicationController
 
   # GET /books/new
   def new
+    check_if_student
     @book = Book.new
   end
 
   # GET /books/1/edit
   def edit
+    unless admin_signed_in? or librarian_signed_in?
+      redirect_to :root, notice: 'You must be signed in as an admin or a librarian to add books.'
+    end
   end
 
   # POST /books
@@ -35,6 +42,12 @@ class BooksController < ApplicationController
         format.html { render :new }
         format.json { render json: @book.errors, status: :unprocessable_entity }
       end
+    end
+  end
+
+  def check_if_student
+    unless admin_signed_in? or librarian_signed_in?
+      redirect_to :root, notice: 'You must be signed in as an admin or a librarian to add books.'
     end
   end
 
