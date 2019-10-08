@@ -1,7 +1,7 @@
 class Library < ApplicationRecord
-    has_many :books
+    has_many :books, dependent: :destroy
     belongs_to :university
-    has_many :librarian
+    has_many :librarian, dependent: :destroy
 
     validates :name , presence: true
     validates :university_id , presence: true

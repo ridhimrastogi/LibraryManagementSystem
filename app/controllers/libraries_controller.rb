@@ -4,6 +4,9 @@ class LibrariesController < ApplicationController
   # GET /libraries
   # GET /libraries.json
   def index
+    unless admin_signed_in? or librarian_signed_in?
+      redirect_to :root, notice: 'Access Denied.'
+    end
     @libraries = Library.all
   end
 
@@ -15,11 +18,17 @@ class LibrariesController < ApplicationController
 
   # GET /libraries/new
   def new
+    unless admin_signed_in?
+      redirect_to :root, notice: 'You need to be an admin to create libraries.'
+    end
     @library = Library.new
   end
 
   # GET /libraries/1/edit
   def edit
+    unless admin_signed_in?
+      redirect_to :root, notice: 'Access Denied.'
+    end
   end
 
   # POST /libraries

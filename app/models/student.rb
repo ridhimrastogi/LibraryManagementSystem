@@ -5,5 +5,6 @@ class Student < ApplicationRecord
          :recoverable, :rememberable, :validatable
     belongs_to :university
     has_many :book_issue_history, dependent: :destroy
+    has_many :bookmarks, dependent: :destroy
     validates :name, :email, :password, :education_level, :university_id, :max_books_borrowed, presence: true
 end
