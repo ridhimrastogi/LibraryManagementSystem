@@ -39,8 +39,9 @@ Rails.application.routes.draw do
   get 'showstudentprofile' => 'students#showstudentprofile', :as => :showstudentprofile
   get 'specialcollectionbooks' => 'librarians#specialcollectionbooks', :as => :specialcollectionbooks
   get 'approve_sprequest/:id' => 'librarians#approve_sprequest', :as => :approve_sprequest
-  get 'studentoverduefine' => 'students#studentoverduefine', :as => :studentoverduefine
-  get 'studentcheckedout' => 'students#studentcheckedout', :as => :studentcheckedout
+  get 'studentoverduefine' => 'book_issue_histories#studentoverduefine', :as => :studentoverduefine
+  get 'studentlibraryfine' => 'book_issue_histories#studentlibraryfine', :as => :studentlibraryfine
+  get 'studentcheckedout' => 'book_issue_histories#studentcheckedout', :as => :studentcheckedout
   get 'showrequestsforadmin' => 'books#showrequestsforadmin', :as => :showrequestsforadmin
   get 'borrowhistory/:id' => 'books#borrowhistory', :as => :borrowhistory
 end

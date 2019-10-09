@@ -51,6 +51,34 @@ class BookIssueHistoriesController < ApplicationController
     end
   end
 
+  def studentoverduefine
+    @issued_books = BookIssueHistory.where(student_id: params[:student_id],:return_date  => nil)
+    extract_overdue_fine(@issued_books)
+  end
+
+  def studentlibraryfine
+    studentcheckedout
+  end
+
+  def studentcheckedout
+    @book_issue_hist = BookIssueHistory.where(return_date: nil)
+    extract_overdue_fine(@book_issue_hist)
+  end
+
+  def extract_overdue_fine(issued_books)
+    @overduefines = Array.new
+
+    issued_books.each do |book|
+      if(book.overdue_date < Date.today)
+        fine_value = (Library.where('id = ?',Book.where('id = ?',book.book_id).first.library_id)).first.overdue_fines
+        fine = (Date.today - book.overdue_date) * fine_value
+        @overduefines.push ({:book_id => book.book_id, :fine_value => fine})
+      else
+        @overduefines.push ({:book_id => book.book_id, :fine_value => 0})
+      end
+    end
+  end
+
   # DELETE /book_issue_histories/1
   # DELETE /book_issue_histories/1.json
   def destroy

@@ -14,7 +14,7 @@
     <h3><%= link_to 'View Profile', showstudentprofile_path%></h3> 
     <h3><%= link_to 'Search Books', search_path%></h3> 
     <h3><%= link_to 'View Bookmarks', showbookmarks_path %></h3> 
-    <h3><%= link_to 'View Overdue fine', studentoverduefine_path %></h3> 
+    <h3><%= link_to 'View Overdue fine', studentoverduefine_path(:student_id => current_student.id) %></h3>
   <%end %>
   
 
