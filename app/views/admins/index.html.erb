@@ -1,6 +1,6 @@
 <!--<p id="notice"><%#= notice %></p>-->
 
-<h1>Welcome, Admin</h1>
+
 <p align="right" class="navbar-text pull-left">
   <% if admin_signed_in? %>
     Logged in as <strong> <%= current_admin.email %></strong>.
@@ -9,6 +9,7 @@
   <%end %>
 
 </p>
+<h1>Admin's Dashboard</h1>
 <table>
   <thead>
     <tr>

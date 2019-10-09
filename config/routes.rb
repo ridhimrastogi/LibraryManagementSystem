@@ -42,4 +42,5 @@ Rails.application.routes.draw do
   get 'studentoverduefine' => 'students#studentoverduefine', :as => :studentoverduefine
   get 'studentcheckedout' => 'students#studentcheckedout', :as => :studentcheckedout
   get 'showrequestsforadmin' => 'books#showrequestsforadmin', :as => :showrequestsforadmin
+  get 'borrowhistory/:id' => 'books#borrowhistory', :as => :borrowhistory
 end
