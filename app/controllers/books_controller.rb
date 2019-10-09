@@ -75,6 +75,14 @@ class BooksController < ApplicationController
    # @custom = Book.joins(:hold_requests).where("hold_requests.book_id" => book_id).where(library_id: @lib.id)
   end
 
+  def showrequestsforadmin
+    @req = []
+    @books_lib = Book.all
+    @books_lib.each do |book_lib|
+      @req << HoldRequest.where(book_id: book_lib.id)
+    end
+  end
+
   def checkedoutbookslib
     @hists = []
     @lib = Library.where(id: current_librarian.library_id).first

@@ -26,7 +26,7 @@ class LibrariesController < ApplicationController
 
   # GET /libraries/1/edit
   def edit
-    unless admin_signed_in?
+    unless admin_signed_in? or librarian_signed_in?
       redirect_to :root, notice: 'Access Denied.'
     end
   end

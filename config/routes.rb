@@ -41,4 +41,5 @@ Rails.application.routes.draw do
   get 'approve_sprequest/:id' => 'librarians#approve_sprequest', :as => :approve_sprequest
   get 'studentoverduefine' => 'students#studentoverduefine', :as => :studentoverduefine
   get 'studentcheckedout' => 'students#studentcheckedout', :as => :studentcheckedout
+  get 'showrequestsforadmin' => 'books#showrequestsforadmin', :as => :showrequestsforadmin
 end
