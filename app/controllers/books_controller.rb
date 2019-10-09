@@ -93,6 +93,12 @@ class BooksController < ApplicationController
     end
   end 
 
+  def borrowhistory
+    req_id = params[:id]
+    @bookborrowhistory = BookIssueHistory.where(book_id:req_id)
+  end
+
+
   def deleterequest
     @request = HoldRequest.where(id: params[:request_id]).first
     @otherRequests = HoldRequest.where(:book_id => @request.book_id).where('queuenumber > ?' ,@request.queuenumber)
