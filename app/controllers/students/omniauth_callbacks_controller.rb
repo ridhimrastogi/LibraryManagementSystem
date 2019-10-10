@@ -11,6 +11,23 @@ class Students::OmniauthCallbacksController < Devise::OmniauthCallbacksControlle
   # More info at:
   # https://github.com/plataformatec/devise#omniauth
 
+
+  def facebook
+    @stud = Student.from_omniauth(request.env["omniauth.auth"])
+
+    if @stud.persisted?
+      sign_in_and_redirect @stud, event: :authentication
+      set_flash_message(:notice, :success, kind: "Facebook") if is_navigational_format?
+    else
+      session["devise.facebook_data"] = request.env["omniauth.auth"]
+      redirect_to new_student_registration_url
+    end
+  end
+
+  def failure
+    redirect_to root_path
+  end
+
   # GET|POST /resource/auth/twitter
   # def passthru
   #   super
