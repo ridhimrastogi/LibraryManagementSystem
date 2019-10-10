@@ -89,7 +89,7 @@ Rails.application.configure do
     config.logger    = ActiveSupport::TaggedLogging.new(logger)
   end
 
-  onfig.action_mailer.perform_deliveries = true
+  config.action_mailer.perform_deliveries = true
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default_options = {from: 'yourbookrequests@gmail.com'}
 
@@ -102,7 +102,7 @@ Rails.application.configure do
       password:             'Abcd@1234',
       authentication:       'plain',
       enable_starttls_auto: true  }
-  
+
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 end
