@@ -41,6 +41,11 @@ gem 'jbuilder', '~> 2.5'
 # To add image from local system
 gem 'carrierwave', '~> 2.0'
 
+#Rspec gem
+gem 'rspec-rails'
+
+gem 'rails-controller-testing'
+
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 
