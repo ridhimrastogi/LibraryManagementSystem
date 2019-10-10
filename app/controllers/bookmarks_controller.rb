@@ -28,8 +28,11 @@ class BookmarksController < ApplicationController
       @bookmark = Bookmark.new
       @bookmark.student_id = current_student.id
       @bookmark.book_id = params[:id]
+      @user = current_student
+      @book = Book.find(params[:id])
       respond_to do |format|
         if @bookmark.save
+          UserMailer.bookmark_email(@user,@book).deliver_now
           format.html { redirect_to :students, notice: 'Bookmark was successfully created.' }
           format.json { render :show, status: :created, location: @bookmark }
         else

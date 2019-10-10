@@ -180,6 +180,7 @@ class BooksController < ApplicationController
         @book.save!
         respond_to do |format|
           if @book_issue_history.save
+            UserMailer.checkout_email(@student,@book).deliver_now
             format.html { redirect_to :students, notice: 'Book successfully checked out.' }
             format.json { render :show, status: :created, location: @book_issue_history }
           else
@@ -218,6 +219,7 @@ class BooksController < ApplicationController
 
       respond_to do |format|
         if @holdRequest.save
+        UserMailer.holdrequest_email(student,book).deliver_now
           if checkout_count == student.max_books_borrowed
             format.html { redirect_to :students, notice: "You have reached your book limit, Hold request created your number in queue is #{@holdRequest.queuenumber}" }
           elsif @book.special_collection
@@ -247,6 +249,7 @@ class BooksController < ApplicationController
         @book.save!
         respond_to do |format|
           if @book_issue_history.save
+            UserMailer.returnbook_email(@student,@book).deliver_now
             updateHoldRequests(@book)
             format.html { redirect_to :students, notice: 'Book successfully returned.' }
             format.json { render :show, status: :created, location: @book_issue_history }
@@ -280,6 +283,7 @@ class BooksController < ApplicationController
         @book.decrement(:quantity)
         @book.save!
         @book_issue_history.save!
+        UserMailer.checkout_email(student,book).deliver_now
         @approvedreqs.first.destroy!
         @reqs = HoldRequest.where(book_id: book.id)
         @reqs.each do |req|
