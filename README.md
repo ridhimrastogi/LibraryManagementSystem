@@ -63,6 +63,10 @@ Student can perform the following tasks:
 #### Note:
 
 1) Once a new librarian signs up, he is automatically signed out of his account and not allowed to sign in till admin approves the librarian. 
-2) When librarian approves hold request, book is issued automatically if it is available. 
+2) When librarian approves hold request, book is issued automatically if it is available.
+3) Rspec testing is done for:
+    * Books model
+    * Bookmarks model
+    * Bookmarks controller
 
 
